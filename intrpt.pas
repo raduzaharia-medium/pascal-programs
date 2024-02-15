@@ -21,6 +21,21 @@ begin
 end;
 {$F-,S+}
 
+{$F+,S-,W-}
+procedure INT5HandlerPrevious; interrupt;
+type TProc = procedure;
+var originalProcedure: procedure;
+begin
+  WriteLn('Custom handler triggered for INT5');
+
+  originalProcedure = TProc(originalHandler);
+  originalProcedure;
+
+  {sending the End Of Interrupt signal}
+  port[$20] := $20;
+end;
+{$F-,S+}
+
 var
   originalHandler: pointer;
 
